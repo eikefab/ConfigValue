@@ -4,6 +4,7 @@ import io.github.eikefs.minecraft.lib.api.mapper.ConfigMapper;
 
 import java.io.File;
 
+@Deprecated
 public class ConfigLoader {
 
     private final File folder;

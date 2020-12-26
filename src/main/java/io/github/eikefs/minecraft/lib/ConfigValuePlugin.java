@@ -1,6 +1,6 @@
 package io.github.eikefs.minecraft.lib;
 
-import io.github.eikefs.minecraft.lib.api.ConfigLoader;
+import io.github.eikefs.minecraft.lib.api.mapper.ConfigMapper;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ConfigValuePlugin extends JavaPlugin {
@@ -12,9 +12,7 @@ public final class ConfigValuePlugin extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
 
-        ConfigLoader configLoader = new ConfigLoader(getDataFolder());
-
-        configLoader.map(ConfigValuePlugin.class);
+        ConfigMapper.map(getDataFolder(), "io.github.eikefs.minecraft.lib");
 
         System.out.println("1: " + helloWorld);
         System.out.println("2: " + randomNumber);

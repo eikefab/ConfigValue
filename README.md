@@ -5,7 +5,7 @@ A library which turns configuration reading easy.
 
 Your field must be `static`.
 
-Reading from the default file:
+Reading from the default file (config.yml):
 
 ```java
 public class A {

@@ -2,6 +2,8 @@ package io.github.eikefs.minecraft.lib.api.mapper;
 
 import io.github.eikefs.minecraft.lib.ConfigFile;
 import io.github.eikefs.minecraft.lib.ConfigValue;
+import io.github.eikefs.minecraft.lib.api.parser.ConfigParser;
+import io.github.eikefs.minecraft.lib.api.parser.Parsers;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.reflections.Reflections;
@@ -68,9 +70,11 @@ public final class ConfigMapper {
             if (configuration == null) continue;
 
             final Object value = configuration.get(configValue.value());
+            final ConfigParser parser = Parsers.of(field.getType());
 
             try {
-                field.set(field, value);
+                if (parser == null) field.set(field, value);
+                else field.set(field, parser.deserialize(value.toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

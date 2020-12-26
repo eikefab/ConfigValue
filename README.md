@@ -29,9 +29,6 @@ public class B {
 You must to map them, so add this on your `JavaPlugin#onEnable()`:
 
 ```java
-ConfigLoader configLoader = new ConfigLoader(getFolder());
-
-configLoader.map(A.class)
-            .map(B.class);
+ConfigMapper.map(getDataFolder(), "your.package.here");
 ```
 

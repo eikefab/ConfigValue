@@ -23,6 +23,7 @@ public class B {
   @ConfigValue("my-second-message") private static String secondMessage;
 
   @ConfigValue(file = "config.yml", value = "config-version") private static int configVersion;
+
 }
 ```
 

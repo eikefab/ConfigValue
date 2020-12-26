@@ -19,4 +19,8 @@ public final class Parsers {
         return (ConfigParser<T>) parsers.get(clazz);
     }
 
+    public static <T> void add(Class<T> clazz, ConfigParser<T> parser) {
+        parsers.put(clazz, parser);
+    }
+
 }

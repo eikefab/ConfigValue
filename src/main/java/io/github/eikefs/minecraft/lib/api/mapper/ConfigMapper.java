@@ -4,12 +4,16 @@ import io.github.eikefs.minecraft.lib.ConfigFile;
 import io.github.eikefs.minecraft.lib.ConfigValue;
 import io.github.eikefs.minecraft.lib.api.parser.ConfigParser;
 import io.github.eikefs.minecraft.lib.api.parser.Parsers;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public final class ConfigMapper {
@@ -49,7 +53,8 @@ public final class ConfigMapper {
     }
 
     public static void map(File folder, String pckg) {
-        final Set<Field> fields = new Reflections(pckg).getFieldsAnnotatedWith(ConfigValue.class);
+        final Reflections reflections = new Reflections(pckg, new FieldAnnotationsScanner());
+        final Set<Field> fields = reflections.getFieldsAnnotatedWith(ConfigValue.class);
 
         for (Field field : fields) {
             field.setAccessible(true);
@@ -73,6 +78,21 @@ public final class ConfigMapper {
             final ConfigParser parser = Parsers.of(field.getType());
 
             try {
+                if (field.getType().newInstance() instanceof List) {
+                    List<Object> list = (List<Object>) value;
+                    List<Object> valueList = new ArrayList<>();
+
+                    for (Object listValue : list) {
+                        if (listValue instanceof String) {
+                            valueList.add(ChatColor.translateAlternateColorCodes('&', listValue.toString()));
+                        } else {
+                            valueList.add(listValue);
+                        }
+                    }
+
+                    field.set(field, valueList);
+                }
+
                 if (parser == null) field.set(field, value);
                 else field.set(field, parser.deserialize(value.toString()));
             } catch (Exception e) {

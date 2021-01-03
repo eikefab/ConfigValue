@@ -1,2 +1,11 @@
 hello-world: "&aHello World, that's my library!"
 a-random-number: 10
+some-list:
+  - "hello"
+  - "that's"
+  - "my library"
+a-section:
+  hello: 1
+  world: 2
+  messages:
+    hello-world: "Hello World"
